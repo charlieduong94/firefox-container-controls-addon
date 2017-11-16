@@ -1,0 +1,15 @@
+{
+  "name": "firefox-containerify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "containerify.js",
+  "scripts": {
+    "start": "web-ext run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Charlie Duong",
+  "license": "MIT",
+  "devDependencies": {
+    "web-ext": "^2.2.2"
+  }
+}
