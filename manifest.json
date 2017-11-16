@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Containerify",
+  "name": "container-controls",
   "version": "0.1",
   "description": "Adds keyboard shortcuts for opening containers",
 
@@ -25,14 +25,29 @@
   ],
 
   "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "MacCtrl+G"
+      }
+    },
     "containerify-open-tab": {
       "suggested_key": {
         "default": "MacCtrl+T"
       }
     },
-    "_execute_browser_action": {
+    "containerify-up-key": {
       "suggested_key": {
-        "default": "MacCtrl+Shift+T"
+        "default": "MacCtrl+K"
+      }
+    },
+    "containerify-down-key": {
+      "suggested_key": {
+        "default": "MacCtrl+J"
+      }
+    },
+    "containerify-enter-key": {
+      "suggested_key": {
+        "default": "MacCtrl+O"
       }
     }
   }

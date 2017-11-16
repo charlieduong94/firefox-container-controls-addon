@@ -2,35 +2,18 @@
   const { tabs, commands, contextualIdentities } = browser
   const containers = await contextualIdentities.query({})
 
-  let currentTabId
-
-  // add listener for tab changes
-  tabs.onActivated.addListener(({ tabId }) => {
-    currentTabId = tabId
-  })
-
-  const cmds = await commands.getAll()
-
   commands.onCommand.addListener(async (command) => {
-    console.log(command)
     try {
-      let cookieStoreId
+      const [ tab ] = await tabs.query({
+        active: true,
+        currentWindow: true
+      })
 
-      if (!currentTabId) {
-        cookieStoreId = 'firefox-default'
-      } else {
-        const currentTab = await tabs.get(currentTabId)
-        cookieStoreId = currentTab.cookieStoreId
-      }
+      const { cookieStoreId } = tab
 
       switch (command) {
-        case '_execute_browser_action':
-          console.log('browser action clicked')
-          break;
         case 'containerify-open-tab':
-          tabs.create({
-            cookieStoreId
-          })
+          tabs.create({ cookieStoreId })
           break;
       }
     } catch (err) {
