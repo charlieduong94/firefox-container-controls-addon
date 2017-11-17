@@ -5,7 +5,7 @@
   "description": "Adds keyboard shortcuts for opening containers",
 
   "background": {
-    "scripts": [ "dist/background.bundle.js" ]
+    "scripts": [ "dist/background.js" ]
   },
 
   "browser_action": {
@@ -14,7 +14,7 @@
       "19": "assets/icons/icon.png"
     },
 
-    "default_popup": "dist/popup.html"
+    "default_popup": "dist/popup/index.html"
   },
 
   "permissions": [

@@ -3,10 +3,7 @@
 import { Main } from './elm/Main'
 import './styles.css'
 
-/**
- * Updates the selected buttons
- */
-(async function () {
+;(async function () {
   try {
     const { tabs, commands, contextualIdentities } = browser
     const appContainer = document.getElementById('app')

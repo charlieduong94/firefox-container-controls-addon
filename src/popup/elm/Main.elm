@@ -41,11 +41,8 @@ type alias Flags =
 init : Model -> ( Model, Cmd Msg )
 init flags =
     let
-        { containers } =
+        { currentIndex, containers } =
             flags
-
-        currentIndex =
-            0
     in
         ( Model currentIndex containers, Cmd.none )
 
@@ -142,7 +139,8 @@ renderButton currentIndex index container =
 view : Model -> Html Msg
 view model =
     let
-        { containers, currentIndex } = model
+        { containers, currentIndex } =
+            model
 
         renderCurrentButton =
             renderButton currentIndex

@@ -1,14 +1,14 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
-    popup: './src/popup/index.js',
-    background: './src/background.js'
+    'popup/main': './src/popup/main',
+    background: './src/background'
   },
   output: {
     path: `${__dirname}/dist`,
-    filename: '[name].bundle.js'
+    filename: '[name].js'
   },
   resolve: {
     extensions: [ '.js', '.elm' ]
@@ -29,7 +29,13 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin('styles.css'),
-    new UglifyJsPlugin()
+    // both outputs are relatiive to dist
+    new ExtractTextPlugin('./popup/styles.css'),
+    new CopyPlugin([
+      {
+        from: 'src/popup/index.html',
+        to: './popup/index.html'
+      }
+    ])
   ]
 }

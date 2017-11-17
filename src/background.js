@@ -16,9 +16,7 @@
         case 'containerify-open-tab':
           await tabs.create({ cookieStoreId })
           break
-        default:
-          console.warn(`Unable handle command ${command}`)
-          break;
+        // ignore all other commands
       }
     } catch (err) {
       console.error(`Error handing command: ${command}`, err)
