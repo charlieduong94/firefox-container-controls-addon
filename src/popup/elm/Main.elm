@@ -1,12 +1,12 @@
 module Main exposing (..)
 
-import Html exposing (Html, Attribute, div, label, text)
-import Html.Events exposing (onClick, onMouseOver)
-import Html.Attributes exposing (attribute, class, classList, style)
-import Platform.Sub exposing (Sub)
-import Array exposing (Array)
-import Ports exposing (openTab, keyPress)
-
+import Html exposing ( Html, Attribute, div, hr, label, text )
+import Html.Events exposing ( onClick, onMouseOver )
+import Html.Attributes exposing ( attribute, class, classList, style )
+import Platform.Sub exposing ( Sub )
+import Array exposing ( Array )
+import List
+import Ports exposing ( openTab, keyPress )
 
 main =
     Html.programWithFlags
@@ -132,8 +132,8 @@ renderButton currentIndex index container =
                 , ( "selected", selected )
                 ]
             , attribute "data-pos" indexStr
-            , onClick (Click index)
-            , onMouseOver (MouseOver index)
+            , onClick ( Click index )
+            , onMouseOver ( MouseOver index )
             ]
             [ div [ class "icon", iconStyle ] []
             , label [ class "label" ] [ text name ]
@@ -142,14 +142,21 @@ renderButton currentIndex index container =
 view : Model -> Html Msg
 view model =
     let
-        { containers, currentIndex } =
-            model
+        { containers, currentIndex } = model
 
-        buttonArray =
-            Array.indexedMap (renderButton currentIndex) containers
+        renderCurrentButton =
+            renderButton currentIndex
+
+        separator =
+            hr [ class "separator" ] []
+
+        buttonList = containers
+            |> Array.indexedMap renderCurrentButton
+            |> Array.toList
+            |> List.intersperse separator
     in
         div [ class "app-container" ]
-            (Array.toList buttonArray)
+            buttonList
 
 -- subscriptions
 
