@@ -14,7 +14,7 @@
       "19": "assets/icons/icon.png"
     },
 
-    "default_popup": "src/popup/index.html"
+    "default_popup": "dist/popup.html"
   },
 
   "permissions": [

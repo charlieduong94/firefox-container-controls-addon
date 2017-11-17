@@ -13,6 +13,7 @@
 
       switch (command) {
         case 'containerify-open-tab':
+          console.log('!!!!!!!!!!!!!!!!!')
           tabs.create({ cookieStoreId })
           break;
       }
