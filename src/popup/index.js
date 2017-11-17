@@ -1,5 +1,7 @@
+/* globals browser */
+
 import { Main } from './elm/Main'
-import styles from './styles.css'
+import './styles.css'
 
 /**
  * Updates the selected buttons
@@ -11,7 +13,7 @@ import styles from './styles.css'
 
     const containers = await contextualIdentities.query({})
 
-    const [ currentTab ]= await tabs.query({
+    const [ currentTab ] = await tabs.query({
       active: true,
       currentWindow: true
     })
@@ -34,24 +36,27 @@ import styles from './styles.css'
 
     const { ports } = app
 
-    ports.openTab.subscribe((index) => {
-      const { cookieStoreId } = containers[index]
-      return tabs.create({ cookieStoreId })
+    ports.openTab.subscribe(async (index) => {
+      try {
+        const { cookieStoreId } = containers[index]
+        await tabs.create({ cookieStoreId })
+        window.close()
+      } catch (err) {
+        console.error(err)
+      }
     })
 
-    commands.onCommand.addListener(async (command) => {
-      let shouldUpdate = false
-
+    commands.onCommand.addListener((command) => {
       switch (command) {
         case 'containerify-down-key':
           ports.keyPress.send('down')
-          break;
+          break
         case 'containerify-up-key':
           ports.keyPress.send('up')
-          break;
+          break
         case 'containerify-enter-key':
           ports.keyPress.send('enter')
-          break;
+          break
       }
     })
   } catch (err) {

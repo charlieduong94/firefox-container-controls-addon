@@ -1,6 +1,7 @@
-;(async function () {
-  const { tabs, commands, contextualIdentities } = browser
-  const containers = await contextualIdentities.query({})
+/* globals browser */
+
+;(function () {
+  const { tabs, commands } = browser
 
   commands.onCommand.addListener(async (command) => {
     try {
@@ -13,12 +14,14 @@
 
       switch (command) {
         case 'containerify-open-tab':
-          console.log('!!!!!!!!!!!!!!!!!')
-          tabs.create({ cookieStoreId })
+          await tabs.create({ cookieStoreId })
+          break
+        default:
+          console.warn(`Unable handle command ${command}`)
           break;
       }
     } catch (err) {
-      console.error(err)
+      console.error(`Error handing command: ${command}`, err)
     }
   })
 })()

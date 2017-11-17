@@ -1,9 +1,13 @@
 {
   "name": "contabs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Better firefox container controls",
   "scripts": {
-    "start": "concurrently \"web-ext run --browser-console --firefox=firefoxdeveloperedition\" \"webpack-dev-server\"",
+    "build": "webpack",
+    "lint": "standard | snazzy",
+    "start": "concurrently \"web-ext run\" \"webpack --watch\"",
+    "start:dev": "concurrently \"web-ext run --firefox=firefoxdeveloperedition\" \"webpack --watch\"",
+    "start:nightly": "concurrently \"web-ext run --firefox=nightly\" \"webpack --watch\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Charlie Duong",
@@ -13,12 +17,19 @@
     "css-loader": "^0.28.7",
     "elm-webpack-loader": "^4.4.0",
     "extract-text-webpack-plugin": "^3.0.2",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3",
     "style-loader": "^0.19.0",
     "web-ext": "^2.2.2",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack": "^3.8.1"
   },
   "dependencies": {
     "elm": "^0.18.0"
+  },
+  "standard": {
+    "ignore": [
+      "elm-stuff/",
+      "dist/"
+    ]
   }
 }

@@ -1,10 +1,13 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  entry: './src/popup/index.js',
+  entry: {
+    popup: './src/popup/index.js',
+    background: './src/background.js'
+  },
   output: {
     path: `${__dirname}/dist`,
-    filename: 'popup.bundle.js'
+    filename: '[name].bundle.js'
   },
   resolve: {
     extensions: [ '.js', '.elm' ]
