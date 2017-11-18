@@ -33,11 +33,15 @@ import './styles.css'
 
     const { ports } = app
 
-    ports.openTab.subscribe(async (index) => {
+    ports.browserAction.subscribe(async ({ action, tabIndex }) => {
+      console.log(action, tabIndex)
       try {
-        const { cookieStoreId } = containers[index]
-        await tabs.create({ cookieStoreId })
-        window.close()
+        switch (action) {
+          case 'OpenTab':
+            const { cookieStoreId } = containers[tabIndex]
+            await tabs.create({ cookieStoreId })
+            window.close()
+        }
       } catch (err) {
         console.error(err)
       }

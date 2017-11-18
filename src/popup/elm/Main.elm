@@ -4,9 +4,8 @@ import Html exposing ( Html, Attribute, div, hr, label, text )
 import Html.Events exposing ( onClick, onMouseOver )
 import Html.Attributes exposing ( attribute, class, classList, style )
 import Platform.Sub exposing ( Sub )
-import Array exposing ( Array )
 import List
-import Ports exposing ( openTab, keyPress )
+import Ports exposing ( BrowserAction, browserAction, keyPress )
 
 main =
     Html.programWithFlags
@@ -31,11 +30,11 @@ type Direction
 
 type alias Model =
     { currentIndex : Int
-    , containers : Array Container
+    , containers : List Container
     }
 
 type alias Flags =
-    { containers : Array Container
+    { containers : List Container
     }
 
 init : Model -> ( Model, Cmd Msg )
@@ -55,6 +54,10 @@ type Msg
     | Select
     | NoOp
 
+openTab : Int -> BrowserAction
+openTab tabIndex =
+    BrowserAction "OpenTab" ( Just tabIndex )
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
@@ -62,7 +65,7 @@ update msg model =
             model
 
         containersLength =
-            Array.length containers
+            List.length containers
     in
         case msg of
             Move direction ->
@@ -79,14 +82,14 @@ update msg model =
                         else
                             ( model, Cmd.none )
 
-            Click position ->
-                ( model, openTab position )
-
             MouseOver position ->
                 ( { model | currentIndex = position }, Cmd.none )
 
+            Click position ->
+                ( model, browserAction (openTab position) )
+
             Select ->
-                ( model, openTab currentIndex )
+                ( model, browserAction (openTab currentIndex) )
 
             NoOp ->
                 ( model, Cmd.none )
@@ -149,8 +152,7 @@ view model =
             hr [ class "separator" ] []
 
         buttonList = containers
-            |> Array.indexedMap renderCurrentButton
-            |> Array.toList
+            |> List.indexedMap renderCurrentButton
             |> List.intersperse separator
     in
         div [ class "app-container" ]
