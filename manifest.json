@@ -30,24 +30,29 @@
         "default": "MacCtrl+G"
       }
     },
-    "containerify-open-tab": {
+    "container-open-tab": {
       "suggested_key": {
         "default": "MacCtrl+T"
       }
     },
-    "containerify-up-key": {
+    "container-up-key": {
       "suggested_key": {
         "default": "MacCtrl+K"
       }
     },
-    "containerify-down-key": {
+    "container-down-key": {
       "suggested_key": {
         "default": "MacCtrl+J"
       }
     },
-    "containerify-enter-key": {
+    "container-enter-key": {
       "suggested_key": {
         "default": "MacCtrl+O"
+      }
+    },
+    "container-sort-tabs": {
+      "suggested_key": {
+        "default": "MacCtrl+S"
       }
     }
   }

@@ -4,7 +4,7 @@ import Html exposing ( Html, Attribute, div, hr, label, text )
 import Html.Events exposing ( onClick, onMouseOver )
 import Html.Attributes exposing ( attribute, class, classList, style )
 import Platform.Sub exposing ( Sub )
-import List
+
 import Ports exposing ( BrowserAction, browserAction, keyPress )
 
 main =
@@ -33,10 +33,6 @@ type alias Model =
     , containers : List Container
     }
 
-type alias Flags =
-    { containers : List Container
-    }
-
 init : Model -> ( Model, Cmd Msg )
 init flags =
     let
@@ -54,9 +50,9 @@ type Msg
     | Select
     | NoOp
 
-openTab : Int -> BrowserAction
+openTab : Int -> Cmd Msg
 openTab tabIndex =
-    BrowserAction "OpenTab" ( Just tabIndex )
+    browserAction ( BrowserAction "open-tab" ( Just tabIndex ) )
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -68,28 +64,26 @@ update msg model =
             List.length containers
     in
         case msg of
-            Move direction ->
-                case direction of
-                    Down ->
-                        if (currentIndex < (containersLength - 1)) then
-                            ( { model | currentIndex = currentIndex + 1 }, Cmd.none )
-                        else
-                            ( model, Cmd.none )
+            Move Down ->
+                if (currentIndex < (containersLength - 1)) then
+                    ( { model | currentIndex = currentIndex + 1 }, Cmd.none )
+                else
+                    ( model, Cmd.none )
 
-                    Up ->
-                        if (currentIndex > 0) then
-                            ( { model | currentIndex = currentIndex - 1 }, Cmd.none )
-                        else
-                            ( model, Cmd.none )
+            Move Up ->
+                if (currentIndex > 0) then
+                    ( { model | currentIndex = currentIndex - 1 }, Cmd.none )
+                else
+                    ( model, Cmd.none )
 
             MouseOver position ->
                 ( { model | currentIndex = position }, Cmd.none )
 
             Click position ->
-                ( model, browserAction (openTab position) )
+                ( model, (openTab position) )
 
             Select ->
-                ( model, browserAction (openTab currentIndex) )
+                ( model, (openTab currentIndex) )
 
             NoOp ->
                 ( model, Cmd.none )
@@ -112,7 +106,7 @@ getIconStyle iconUrl colorCode =
             ]
 
 renderButton : Int -> Int -> Container -> Html Msg
-renderButton currentIndex index container =
+renderButton currentIndex buttonIndex container =
     let
         { name, iconUrl, colorCode, cookieStoreId } =
             container
@@ -120,20 +114,20 @@ renderButton currentIndex index container =
         iconStyle =
             getIconStyle iconUrl colorCode
 
-        indexStr =
-            toString index
+        buttonIndexStr =
+            toString buttonIndex
 
         selected =
-            currentIndex == index
+            currentIndex == buttonIndex
     in
         div
             [ classList
                 [ ( "button", True )
                 , ( "selected", selected )
                 ]
-            , attribute "data-pos" indexStr
-            , onClick ( Click index )
-            , onMouseOver ( MouseOver index )
+            , attribute "data-pos" buttonIndexStr
+            , onClick ( Click buttonIndex )
+            , onMouseOver ( MouseOver buttonIndex )
             ]
             [ div [ class "icon", iconStyle ] []
             , label [ class "label" ] [ text name ]

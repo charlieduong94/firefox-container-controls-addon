@@ -33,11 +33,15 @@ import './styles.css'
 
     const { ports } = app
 
-    ports.browserAction.subscribe(async ({ action, tabIndex }) => {
-      console.log(action, tabIndex)
+    const {
+      browserAction: actionPort,
+      keyPress: keyPressPort
+    } = ports
+
+    actionPort.subscribe(async ({ action, tabIndex }) => {
       try {
         switch (action) {
-          case 'OpenTab':
+          case 'open-tab':
             const { cookieStoreId } = containers[tabIndex]
             await tabs.create({ cookieStoreId })
             window.close()
@@ -49,14 +53,14 @@ import './styles.css'
 
     commands.onCommand.addListener((command) => {
       switch (command) {
-        case 'containerify-down-key':
-          ports.keyPress.send('down')
+        case 'container-down-key':
+          keyPressPort.send('down')
           break
-        case 'containerify-up-key':
-          ports.keyPress.send('up')
+        case 'container-up-key':
+          keyPressPort.send('up')
           break
-        case 'containerify-enter-key':
-          ports.keyPress.send('enter')
+        case 'container-enter-key':
+          keyPressPort.send('enter')
           break
       }
     })

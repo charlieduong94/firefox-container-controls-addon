@@ -1,7 +1,7 @@
 /* globals browser */
 
 ;(function () {
-  const { tabs, commands } = browser
+  const { tabs, commands, contextualIdentities } = browser
 
   commands.onCommand.addListener(async (command) => {
     try {
@@ -13,8 +13,11 @@
       const { cookieStoreId } = tab
 
       switch (command) {
-        case 'containerify-open-tab':
+        case 'container-open-tab':
           await tabs.create({ cookieStoreId })
+          break
+        case 'container-sort-tabs':
+          // sortTabs()
           break
         // ignore all other commands
       }
