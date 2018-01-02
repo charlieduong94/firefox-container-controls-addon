@@ -4,6 +4,7 @@
   "description": "Better firefox container controls",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
+    "bundle": "yarn build && zip -r extension.zip dist assets manifest.json",
     "lint": "standard | snazzy",
     "start": "concurrently \"web-ext run\" \"webpack --watch\"",
     "start:dev": "concurrently \"web-ext run --firefox=firefoxdeveloperedition\" \"webpack --watch\"",
